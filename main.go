@@ -78,14 +78,14 @@ func postExample() {
 	log.Printf("gzip bytes: %d (ori) => %d", n, buf.Len())
 
 	// 3. do request
-	//httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, testUri, bytes.NewBuffer(protoBs))
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, testUri, buf)
+	//httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, testUri, bytes.NewBuffer(protoBs)) // work
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, testUri, buf) // 不 work
 	if err != nil {
 		panic(err)
 	}
 
 	// 4. request use pb
-	httpReq.Header.Add("Content-Encoding", "gzip")
+	httpReq.Header.Add("Content-Encoding", "gzip") // 注释这个 gzip 用 raw pb bytes 可以 work
 	httpReq.Header.Set("Content-Type", "application/x-protobuf")
 	httpReq.Header.Set("User-Agent", "Hertz Test")
 
